@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Desserts Recipes Cook Book</title>
+    <title>World Dessert Recipes Cook Book</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -199,3 +199,29 @@
             <ol>
                 <li>Layer filo pastry in a baking dish, brushing with butter.</li>
                 <li>Add
+=======
+name: Deploy to S3
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch if needed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2  # Update to your region
+
+      - name: Sync files to S3
+        run: aws s3 sync . s3://fpb-111111111 --exclude ".git/*" --exclude "node_modules/*"
+>>>>>>> 846a575c2140c7c0683b20171df7c9b2f2fec2af
