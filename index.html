@@ -1,217 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Desserts Recipes Cook Book</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-        header {
-            background-color: #6b4f4f;
-            color: white;
-            padding: 15px;
-            text-align: center;
-        }
-        main {
-            padding: 20px;
-            max-width: 800px;
-            margin: auto;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-        h2 {
-            color: #6b4f4f;
-            cursor: pointer;
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #e2cfcf;
-            border-radius: 5px;
-        }
-        .recipe-content {
-            display: none;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #6b4f4f;
-            border-radius: 5px;
-            background-color: #f3f3f3;
-        }
-        footer {
-            text-align: center;
-            padding: 20px 0;
-            background-color: #6b4f4f;
-            color: white;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-            font-size: 0.9em;
-        }
-        .email-form {
-            margin-top: 20px;
-        }
-    </style>
-    <script>
-        function toggleRecipe(recipeId) {
-            const content = document.getElementById(recipeId);
-            content.style.display = content.style.display === "none" || content.style.display === "" ? "block" : "none";
-        }
+name: Deploy to S3
 
-        function sendEmail(recipeName) {
-            const email = document.getElementById('email').value;
-            if (!email) {
-                alert('Please enter your email address.');
-                return;
-            }
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch if needed
 
-            // Call your Lambda function here
-            fetch('YOUR_LAMBDA_ENDPOINT', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: email, recipe: recipeName })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Recipe has been sent to your email!');
-                } else {
-                    alert('Error sending email. Please try again.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            });
-        }
-    </script>
-</head>
-<body>
-    <header>
-        <h1>World Desserts Recipes Cook Book </h1>
-    </header>
-    <main>
-        <h2 onclick="toggleRecipe('chendol')">Singapore: Chendol</h2>
-        <div id="chendol" class="recipe-content">
-            <h3>Ingredients</h3>
-            <ul>
-                <li>1 cup green rice flour jelly</li>
-                <li>1 cup coconut milk</li>
-                <li>1/2 cup palm sugar syrup</li>
-                <li>Ice cubes</li>
-            </ul>
-            <h3>Instructions</h3>
-            <ol>
-                <li>Prepare the green jelly using rice flour and pandan extract.</li>
-                <li>In a bowl, combine coconut milk and palm sugar syrup.</li>
-                <li>Serve the jelly over ice and pour the coconut mixture on top.</li>
-            </ol>
-            <button onclick="sendEmail('Chendol')">Send Recipe to Email</button>
-        </div>
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-        <h2 onclick="toggleRecipe('kuihLapis')">Malaysia: Kuih Lapis</h2>
-        <div id="kuihLapis" class="recipe-content">
-            <h3>Ingredients</h3>
-            <ul>
-                <li>2 cups rice flour</li>
-                <li>1 cup coconut milk</li>
-                <li>1 cup sugar</li>
-                <li>Pandan juice for coloring</li>
-            </ul>
-            <h3>Instructions</h3>
-            <ol>
-                <li>Mix rice flour, coconut milk, and sugar until smooth.</li>
-                <li>Divide the batter and add pandan juice to one half for coloring.</li>
-                <li>Layer the mixtures in a steaming tray and steam until cooked.</li>
-            </ol>
-            <button onclick="sendEmail('Kuih Lapis')">Send Recipe to Email</button>
-        </div>
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-        <h2 onclick="toggleRecipe('kulikuli')">Sri Lanka: Kulikuli</h2>
-        <div id="kulikuli" class="recipe-content">
-            <h3>Ingredients</h3>
-            <ul>
-                <li>1 cup roasted gram flour</li>
-                <li>1/2 cup jaggery</li>
-                <li>1/2 cup grated coconut</li>
-                <li>1/2 teaspoon cardamom powder</li>
-            </ul>
-            <h3>Instructions</h3>
-            <ol>
-                <li>Melt jaggery with a little water and mix with gram flour and coconut.</li>
-                <li>Add cardamom powder and mix well.</li>
-                <li>Shape into small balls and let cool.</li>
-            </ol>
-            <button onclick="sendEmail('Kulikuli')">Send Recipe to Email</button>
-        </div>
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2  # Update to your region
 
-        <h2 onclick="toggleRecipe('halwa')">Oman: Halwa</h2>
-        <div id="halwa" class="recipe-content">
-            <h3>Ingredients</h3>
-            <ul>
-                <li>1 cup semolina</li>
-                <li>1 cup sugar</li>
-                <li>1 cup water</li>
-                <li>1/2 teaspoon rosewater</li>
-                <li>Spices (cardamom, saffron)</li>
-            </ul>
-            <h3>Instructions</h3>
-            <ol>
-                <li>Heat semolina in a pan until golden brown.</li>
-                <li>Add sugar and water, stirring until thick.</li>
-                <li>Add rosewater and spices, then cool and serve.</li>
-            </ol>
-            <button onclick="sendEmail('Halwa')">Send Recipe to Email</button>
-        </div>
-
-        <h2 onclick="toggleRecipe('baklava')">Dubai: Baklava</h2>
-        <div id="baklava" class="recipe-content">
-            <h3>Ingredients</h3>
-            <ul>
-                <li>1 package filo pastry</li>
-                <li>2 cups chopped nuts (walnuts, pistachios)</li>
-                <li>1 cup butter, melted</li>
-                <li>1 cup honey</li>
-                <li>1 cup water</li>
-                <li>1/2 cup sugar</li>
-            </ul>
-            <h3>Instructions</h3>
-            <ol>
-                <li>Layer filo pastry in a baking dish, brushing with butter.</li>
-                <li>Add nuts and continue layering, finishing with pastry.</li>
-                <li>Cut into squares and bake until golden.</li>
-                <li>Simmer honey, water, and sugar to make syrup, then pour over baked baklava.</li>
-            </ol>
-            <button onclick="sendEmail('Baklava')">Send Recipe to Email</button>
-        </div>
-
-        <h2 onclick="toggleRecipe('macarons')">France: Macarons</h2>
-        <div id="macarons" class="recipe-content">
-            <h3>Ingredients</h3>
-            <ul>
-                <li>1 cup almond flour</li>
-                <li>2 cups powdered sugar</li>
-                <li>3 large egg whites</li>
-                <li>1/4 cup granulated sugar</li>
-                <li>1 teaspoon vanilla extract</li>
-                <li>Buttercream or ganache for filling</li>
-            </ul>
-            <h3>Instructions</h3>
-            <ol>
-                <li>Preheat oven to 300°F (150°C) and line a baking sheet.</li>
-                <li>Sift almond flour and powdered sugar together.</li>
-                <li>Beat egg whites until frothy, then gradually add granulated sugar until stiff peaks form.</li>
-                <li>Fold in the dry mixture, pipe onto baking sheet, and let rest.</li>
-                <li>Bake until set and cool before filling.</li>
-            </ol>
-            <button onclick="sendEmail('Macarons')">Send Recipe to Email</button>
-        </div>
-
-        <h2 onclick="toggleRecipe('waffles')">Belgium: Belgian Waffles</h2>
-        <div id="waffles" class="recipe-content">
-            <h3
+      - name: Sync files to S3
+        run: aws s3 sync . s3://fpb-111111111 --exclude ".git/*" --exclude "node_modules/*"
