@@ -41,6 +41,11 @@
             border-radius: 5px;
             background-color: #f3f3f3;
         }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
         footer {
             text-align: center;
             padding: 20px 0;
@@ -71,7 +76,7 @@
         }
 
         function rateRecipe(recipeName, rating) {
-            fetch('https://z1t3u6lgda.execute-api.us-west-2.amazonaws.com/project/rate', {  // Replace with your actual API Gateway endpoint
+            fetch('https://your-api-id.execute-api.your-region.amazonaws.com/prod/rate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,45 +100,46 @@
 </head>
 <body>
     <header>
-        <h1>My Desserts Cook Book </h1>
+        <h1>My Desserts Cook Book</h1>
     </header>
     <main>
         <h2 onclick="toggleRecipe('macarons')">France: Macarons</h2>
-<div id="macarons" class="recipe-content">
-    <h3>Ingredients</h3>
-    <ul>
-        <li>1 cup almond flour</li>
-        <li>1 cup powdered sugar</li>
-        <li>3 large egg whites</li>
-        <li>1/4 cup granulated sugar</li>
-        <li>1/2 teaspoon vanilla extract</li>
-        <li>Food coloring (optional)</li>
-        <li>Buttercream or ganache for filling</li>
-    </ul>
-    <h3>Instructions</h3>
-    <ol>
-        <li>Preheat the oven to 300°F (150°C).</li>
-        <li>In a bowl, sift together almond flour and powdered sugar.</li>
-        <li>In a separate bowl, whisk egg whites until foamy, then gradually add granulated sugar until stiff peaks form.</li>
-        <li>Gently fold the almond mixture into the egg whites until well combined. If desired, add food coloring.</li>
-        <li>Pipe small circles onto a baking sheet lined with parchment paper.</li>
-        <li>Let the piped macarons sit for 30-60 minutes until a skin forms.</li>
-        <li>Bake for 15-20 minutes until firm and slightly risen. Allow to cool.</li>
-        <li>Sandwich two macarons together with buttercream or ganache.</li>
-    </ol>
-    <div class="rating">
-        <h4>Rate this recipe:</h4>
-        <button onclick="rateRecipe('Macarons', 1)">1 Star</button>
-        <button onclick="rateRecipe('Macarons', 2)">2 Stars</button>
-        <button onclick="rateRecipe('Macarons', 3)">3 Stars</button>
-        <button onclick="rateRecipe('Macarons', 4)">4 Stars</button>
-        <button onclick="rateRecipe('Macarons', 5)">5 Stars</button>
-    </div>
-</div>
-
+        <div id="macarons" class="recipe-content">
+            <img src="https://example.com/macarons.jpg" alt="Macarons">
+            <h3>Ingredients</h3>
+            <ul>
+                <li>1 cup almond flour</li>
+                <li>1 cup powdered sugar</li>
+                <li>3 large egg whites</li>
+                <li>1/4 cup granulated sugar</li>
+                <li>1/2 teaspoon vanilla extract</li>
+                <li>Food coloring (optional)</li>
+                <li>Buttercream or ganache for filling</li>
+            </ul>
+            <h3>Instructions</h3>
+            <ol>
+                <li>Preheat the oven to 300°F (150°C).</li>
+                <li>In a bowl, sift together almond flour and powdered sugar.</li>
+                <li>In a separate bowl, whisk egg whites until foamy, then gradually add granulated sugar until stiff peaks form.</li>
+                <li>Gently fold the almond mixture into the egg whites until well combined. If desired, add food coloring.</li>
+                <li>Pipe small circles onto a baking sheet lined with parchment paper.</li>
+                <li>Let the piped macarons sit for 30-60 minutes until a skin forms.</li>
+                <li>Bake for 15-20 minutes until firm and slightly risen. Allow to cool.</li>
+                <li>Sandwich two macarons together with buttercream or ganache.</li>
+            </ol>
+            <div class="rating">
+                <h4>Rate this recipe:</h4>
+                <button onclick="rateRecipe('Macarons', 1)">1 Star</button>
+                <button onclick="rateRecipe('Macarons', 2)">2 Stars</button>
+                <button onclick="rateRecipe('Macarons', 3)">3 Stars</button>
+                <button onclick="rateRecipe('Macarons', 4)">4 Stars</button>
+                <button onclick="rateRecipe('Macarons', 5)">5 Stars</button>
+            </div>
+        </div>
 
         <h2 onclick="toggleRecipe('chendol')">Singapore: Chendol</h2>
         <div id="chendol" class="recipe-content">
+            <img src="https://example.com/chendol.jpg" alt="Chendol">
             <h3>Ingredients</h3>
             <ul>
                 <li>1 cup green rice flour jelly</li>
@@ -159,6 +165,7 @@
 
         <h2 onclick="toggleRecipe('kuihLapis')">Malaysia: Kuih Lapis</h2>
         <div id="kuihLapis" class="recipe-content">
+            <img src="https://example.com/kuih_lapis.jpg" alt="Kuih Lapis">
             <h3>Ingredients</h3>
             <ul>
                 <li>2 cups rice flour</li>
@@ -184,6 +191,7 @@
 
         <h2 onclick="toggleRecipe('kulikuli')">Sri Lanka: Kulikuli</h2>
         <div id="kulikuli" class="recipe-content">
+            <img src="https://example.com/kulikuli.jpg" alt="Kulikuli">
             <h3>Ingredients</h3>
             <ul>
                 <li>1 cup roasted gram flour</li>
@@ -209,6 +217,7 @@
 
         <h2 onclick="toggleRecipe('halwa')">Oman: Halwa</h2>
         <div id="halwa" class="recipe-content">
+            <img src="https://example.com/halwa.jpg" alt="Halwa">
             <h3>Ingredients</h3>
             <ul>
                 <li>1 cup semolina</li>
@@ -235,6 +244,7 @@
 
         <h2 onclick="toggleRecipe('baklava')">Dubai: Baklava</h2>
         <div id="baklava" class="recipe-content">
+            <img src="https://example.com/baklava.jpg" alt="Baklava">
             <h3>Ingredients</h3>
             <ul>
                 <li>1 package filo pastry</li>
