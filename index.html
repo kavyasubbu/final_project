@@ -51,8 +51,17 @@
             width: 100%;
             font-size: 0.9em;
         }
-        .email-form {
-            margin-top: 20px;
+        .rating {
+            margin-top: 10px;
+        }
+        .rating button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            background-color: #6b4f4f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
     <script>
@@ -61,39 +70,17 @@
             content.style.display = content.style.display === "none" || content.style.display === "" ? "block" : "none";
         }
 
-        function sendEmail(recipeName) {
-            const email = document.getElementById('email').value;
-            if (!email) {
-                alert('Please enter your email address.');
-                return;
-            }
-
-            // Call your Lambda function here
-            fetch('YOUR_LAMBDA_ENDPOINT', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: email, recipe: recipeName })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Recipe has been sent to your email!');
-                } else {
-                    alert('Error sending email. Please try again.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            });
+        function rateRecipe(recipeName, rating) {
+            // Here you can implement the logic to send the rating to your backend or Lambda function
+            console.log(`Recipe: ${recipeName}, Rating: ${rating}`);
+            alert(`You rated ${recipeName} with ${rating} star(s)!`);
+            // You could also call a fetch to send this rating to your backend.
         }
     </script>
 </head>
 <body>
     <header>
-        <h1>World Desserts Recipes Cook Book </h1>
+        <h1>World Desserts Recipes Cook Book</h1>
     </header>
     <main>
         <h2 onclick="toggleRecipe('chendol')">Singapore: Chendol</h2>
@@ -111,7 +98,14 @@
                 <li>In a bowl, combine coconut milk and palm sugar syrup.</li>
                 <li>Serve the jelly over ice and pour the coconut mixture on top.</li>
             </ol>
-            <button onclick="sendEmail('Chendol')">Send Recipe to Email</button>
+            <div class="rating">
+                <h4>Rate this recipe:</h4>
+                <button onclick="rateRecipe('Chendol', 1)">1 Star</button>
+                <button onclick="rateRecipe('Chendol', 2)">2 Stars</button>
+                <button onclick="rateRecipe('Chendol', 3)">3 Stars</button>
+                <button onclick="rateRecipe('Chendol', 4)">4 Stars</button>
+                <button onclick="rateRecipe('Chendol', 5)">5 Stars</button>
+            </div>
         </div>
 
         <h2 onclick="toggleRecipe('kuihLapis')">Malaysia: Kuih Lapis</h2>
@@ -129,7 +123,14 @@
                 <li>Divide the batter and add pandan juice to one half for coloring.</li>
                 <li>Layer the mixtures in a steaming tray and steam until cooked.</li>
             </ol>
-            <button onclick="sendEmail('Kuih Lapis')">Send Recipe to Email</button>
+            <div class="rating">
+                <h4>Rate this recipe:</h4>
+                <button onclick="rateRecipe('Kuih Lapis', 1)">1 Star</button>
+                <button onclick="rateRecipe('Kuih Lapis', 2)">2 Stars</button>
+                <button onclick="rateRecipe('Kuih Lapis', 3)">3 Stars</button>
+                <button onclick="rateRecipe('Kuih Lapis', 4)">4 Stars</button>
+                <button onclick="rateRecipe('Kuih Lapis', 5)">5 Stars</button>
+            </div>
         </div>
 
         <h2 onclick="toggleRecipe('kulikuli')">Sri Lanka: Kulikuli</h2>
@@ -147,7 +148,14 @@
                 <li>Add cardamom powder and mix well.</li>
                 <li>Shape into small balls and let cool.</li>
             </ol>
-            <button onclick="sendEmail('Kulikuli')">Send Recipe to Email</button>
+            <div class="rating">
+                <h4>Rate this recipe:</h4>
+                <button onclick="rateRecipe('Kulikuli', 1)">1 Star</button>
+                <button onclick="rateRecipe('Kulikuli', 2)">2 Stars</button>
+                <button onclick="rateRecipe('Kulikuli', 3)">3 Stars</button>
+                <button onclick="rateRecipe('Kulikuli', 4)">4 Stars</button>
+                <button onclick="rateRecipe('Kulikuli', 5)">5 Stars</button>
+            </div>
         </div>
 
         <h2 onclick="toggleRecipe('halwa')">Oman: Halwa</h2>
@@ -166,7 +174,14 @@
                 <li>Add sugar and water, stirring until thick.</li>
                 <li>Add rosewater and spices, then cool and serve.</li>
             </ol>
-            <button onclick="sendEmail('Halwa')">Send Recipe to Email</button>
+            <div class="rating">
+                <h4>Rate this recipe:</h4>
+                <button onclick="rateRecipe('Halwa', 1)">1 Star</button>
+                <button onclick="rateRecipe('Halwa', 2)">2 Stars</button>
+                <button onclick="rateRecipe('Halwa', 3)">3 Stars</button>
+                <button onclick="rateRecipe('Halwa', 4)">4 Stars</button>
+                <button onclick="rateRecipe('Halwa', 5)">5 Stars</button>
+            </div>
         </div>
 
         <h2 onclick="toggleRecipe('baklava')">Dubai: Baklava</h2>
@@ -183,35 +198,4 @@
             <h3>Instructions</h3>
             <ol>
                 <li>Layer filo pastry in a baking dish, brushing with butter.</li>
-                <li>Add nuts and continue layering, finishing with pastry.</li>
-                <li>Cut into squares and bake until golden.</li>
-                <li>Simmer honey, water, and sugar to make syrup, then pour over baked baklava.</li>
-            </ol>
-            <button onclick="sendEmail('Baklava')">Send Recipe to Email</button>
-        </div>
-
-        <h2 onclick="toggleRecipe('macarons')">France: Macarons</h2>
-        <div id="macarons" class="recipe-content">
-            <h3>Ingredients</h3>
-            <ul>
-                <li>1 cup almond flour</li>
-                <li>2 cups powdered sugar</li>
-                <li>3 large egg whites</li>
-                <li>1/4 cup granulated sugar</li>
-                <li>1 teaspoon vanilla extract</li>
-                <li>Buttercream or ganache for filling</li>
-            </ul>
-            <h3>Instructions</h3>
-            <ol>
-                <li>Preheat oven to 300°F (150°C) and line a baking sheet.</li>
-                <li>Sift almond flour and powdered sugar together.</li>
-                <li>Beat egg whites until frothy, then gradually add granulated sugar until stiff peaks form.</li>
-                <li>Fold in the dry mixture, pipe onto baking sheet, and let rest.</li>
-                <li>Bake until set and cool before filling.</li>
-            </ol>
-            <button onclick="sendEmail('Macarons')">Send Recipe to Email</button>
-        </div>
-
-        <h2 onclick="toggleRecipe('waffles')">Belgium: Belgian Waffles</h2>
-        <div id="waffles" class="recipe-content">
-            <h3
+                <li>Add
