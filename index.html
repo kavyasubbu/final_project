@@ -71,10 +71,25 @@
         }
 
         function rateRecipe(recipeName, rating) {
-            // Here you can implement the logic to send the rating to your backend or Lambda function
-            console.log(`Recipe: ${recipeName}, Rating: ${rating}`);
-            alert(`You rated ${recipeName} with ${rating} star(s)!`);
-            // You could also call a fetch to send this rating to your backend.
+            fetch('https://z1t3u6lgda.execute-api.us-west-2.amazonaws.com/project/rate', {  // Replace with your actual API Gateway endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ recipeName, rating }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                } else {
+                    alert('Error storing rating.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
         }
     </script>
 </head>
@@ -198,30 +213,22 @@
             <h3>Instructions</h3>
             <ol>
                 <li>Layer filo pastry in a baking dish, brushing with butter.</li>
-                <li>Add
-=======
-name: Deploy to S3
-
-on:
-  push:
-    branches:
-      - main  # Change this to your default branch if needed
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2  # Update to your region
-
-      - name: Sync files to S3
-        run: aws s3 sync . s3://fpb-111111111 --exclude ".git/*" --exclude "node_modules/*"
->>>>>>> 846a575c2140c7c0683b20171df7c9b2f2fec2af
+                <li>Add chopped nuts, then layer more filo, brushing with butter.</li>
+                <li>Cut into diamond shapes before baking.</li>
+                <li>Simmer honey, water, and sugar to make syrup, then pour over baked baklava.</li>
+            </ol>
+            <div class="rating">
+                <h4>Rate this recipe:</h4>
+                <button onclick="rateRecipe('Baklava', 1)">1 Star</button>
+                <button onclick="rateRecipe('Baklava', 2)">2 Stars</button>
+                <button onclick="rateRecipe('Baklava', 3)">3 Stars</button>
+                <button onclick="rateRecipe('Baklava', 4)">4 Stars</button>
+                <button onclick="rateRecipe('Baklava', 5)">5 Stars</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 World Desserts Recipes Cook Book</p>
+    </footer>
+</body>
+</html>
